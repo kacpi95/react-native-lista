@@ -33,3 +33,23 @@ export default function App() {
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    backgroundColor: '#ecf0f1',
+    padding: 8,
+  },
+  title: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  brand: {
+    margin: 24,
+    fontSize: 18,
+    width: '80%',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingStart: 50,
+  },
+});
