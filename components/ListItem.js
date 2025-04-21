@@ -20,3 +20,21 @@ export const ListItem = ({ item, onToggle, onRemove }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    padding: 8,
+    justifyContent: 'space-between',
+    backgroundColor: '#ecf0f1',
+    alignItems: 'center',
+  },
+  item: {
+    flex: 2,
+    fontSize: 14,
+  },
+  itemBought: {
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
+  },
+});
