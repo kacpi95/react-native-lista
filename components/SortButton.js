@@ -45,3 +45,12 @@ export const SortButton = ({ sort, onPush }) => {
     </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  order: {
+    verticalAlign: 'center',
+    textAlign: 'center',
+    paddingVertical: 24,
+    paddingHorizontal: 8,
+  },
+});
