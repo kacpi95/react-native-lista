@@ -38,3 +38,15 @@ export const ProductInput = ({ onAdd }) => {
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    backgroundColor: '#fff',
+  },
+  input: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    marginVertical: 8,
+    padding: 8,
+  },
+});
