@@ -1,7 +1,7 @@
 import { StyleSheet, View, TextInput, Button } from 'react-native';
 import { useState } from 'react';
 
-export const ProductInput = ({ onAdd }) => {
+export const AddProductForm = ({ onAdd }) => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [store, setStore] = useState('');

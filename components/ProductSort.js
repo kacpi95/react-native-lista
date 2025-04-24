@@ -38,7 +38,7 @@ const SortIcon = ({ sort }) => {
   );
 };
 
-export const SortButton = ({ sort, onPush }) => {
+export const ProductSort = ({ sort, onPush }) => {
   return (
     <Pressable style={styles.order} onPress={onPush}>
       <SortIcon sort={sort} />

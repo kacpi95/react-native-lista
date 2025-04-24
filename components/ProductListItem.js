@@ -1,7 +1,7 @@
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
-export const ListItem = ({ item, onToggle, onRemove }) => {
+export const ProductListItem = ({ item, onToggle, onRemove }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={onToggle} style={styles.container}>

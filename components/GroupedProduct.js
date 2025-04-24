@@ -1,12 +1,10 @@
 import { Text, SectionList } from 'react-native';
 
-import { ListItem } from './ListItem';
+import { ProductListItem } from './ProductListItem';
 
-export const ProductsList = ({ list, setBought, removeItem }) => {
+export const GroupedProduct = ({ list, setBought, removeItem }) => {
   const groupedList = list.reduce((groups, item) => {
-    const storeGroup = groups.find(
-      (section) => section.title === item.store
-    );
+    const storeGroup = groups.find((section) => section.title === item.store);
     if (storeGroup) {
       storeGroup.data.push(item);
     } else {
@@ -19,17 +17,13 @@ export const ProductsList = ({ list, setBought, removeItem }) => {
     <SectionList
       sections={groupedList}
       renderItem={({ item }) => (
-        <ListItem
+        <ProductListItem
           item={item}
           onToggle={() => setBought(item)}
           onRemove={() => removeItem(item)}
         />
       )}
-      renderSectionHeader={({ section }) => (
-        <Text>
-          {section.title}
-        </Text>
-      )}
+      renderSectionHeader={({ section }) => <Text>{section.title}</Text>}
     />
   );
 };

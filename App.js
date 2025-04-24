@@ -1,9 +1,9 @@
 import { Text, SafeAreaView, StyleSheet, Button, View } from 'react-native';
 
-import { ProductsList } from './components/ProductsList';
-import { ProductInput } from './components/ProductInput';
-import { SortButton } from './components/SortButton';
-import { useList } from './components/UseList';
+import { GroupedProduct } from './components/GroupedProduct';
+import { AddProductForm } from './components/AddProductForm';
+import { ProductSort } from './components/ProductSort';
+import { UseProductList } from './components/UseProductList';
 
 export default function App() {
   const {
@@ -14,21 +14,25 @@ export default function App() {
     currentSort,
     toggleSort,
     removeItem,
-  } = useList([]);
+  } = UseProductList([]);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.title}>
         <Text style={styles.brand}>Lista zakupów</Text>
         {list.length > 0 && (
-          <SortButton sort={currentSort} onPush={toggleSort} />
+          <ProductSort sort={currentSort} onPush={toggleSort} />
         )}
       </View>
-      <ProductsList list={list} setBought={setBought} removeItem={removeItem} />
+      <GroupedProduct
+        list={list}
+        setBought={setBought}
+        removeItem={removeItem}
+      />
       {list.length > 0 && (
         <Button title='usuń kupione' onPress={removeBought} color='#000' />
       )}
-      <ProductInput onAdd={addItem} />
+      <AddProductForm onAdd={addItem} />
     </SafeAreaView>
   );
 }
