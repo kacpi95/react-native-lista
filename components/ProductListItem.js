@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 export const ProductListItem = ({ item, onToggle, onRemove }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={onToggle} style={styles.container}>
+      <TouchableOpacity onPress={onToggle} style={styles.textContainer}>
         <Text style={[styles.item, item.bought && styles.itemBought]}>
           {item.name} - {item.price.toFixed(2)}zł ({item.store})
         </Text>
@@ -29,12 +29,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#ecf0f1',
     alignItems: 'center',
   },
+  textContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
   item: {
-    flex: 2,
+    flex: 1,
     fontSize: 14,
   },
   itemBought: {
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
+  },
+  iconButton: {
+    paddingLeft: 8,
   },
 });

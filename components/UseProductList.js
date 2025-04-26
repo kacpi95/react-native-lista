@@ -15,8 +15,8 @@ const doSort = (list, method) => {
   }
 };
 
-export const UseProductList = (defaultValue) => {
-  const [list, updateList] = useState(defaultValue);
+export const UseProductList = () => {
+  const [list, updateList] = useState([]);
   const [currentSort, setSort] = useState(sorts[0]);
 
   const addItem = ({ name, price, store }) => {
