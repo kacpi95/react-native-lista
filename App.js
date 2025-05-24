@@ -1,66 +1,45 @@
-import { Text, SafeAreaView, StyleSheet, Button, View } from 'react-native';
+import { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { GroupedProduct } from './components/GroupedProduct';
-import { AddProductForm } from './components/AddProductForm';
-import { ProductSort } from './components/ProductSort';
-import { UseProductList } from './components/UseProductList';
-import AppNavigator from './navigation/AppNavigator';
-import { AuthProvider } from './context/AuthContext';
+import LoginScreen from './screens/LoginScreen';
+import MainScreen from './screens/MainScreen';
+import AddProductScreen from './screens/AddProductScreen';
+import ProductDetailsScreen from './screens/ProductDetailsScreen';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return (
-    <AuthProvider>
-      <AppNavigator />
-    </AuthProvider>
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  //   const {
-  //     list,
-  //     addItem,
-  //     setBought,
-  //     removeBought,
-  //     currentSort,
-  //     toggleSort,
-  //     removeItem,
-  //   } = UseProductList([]);
-  //   return (
-  //     <SafeAreaView style={styles.container}>
-  //       <View style={styles.title}>
-  //         <Text style={styles.brand}>Lista zakupów</Text>
-  //         {list.length > 0 && (
-  //           <ProductSort sort={currentSort} onPush={toggleSort} />
-  //         )}
-  //       </View>
-  //       <GroupedProduct
-  //         list={list}
-  //         setBought={setBought}
-  //         removeItem={removeItem}
-  //       />
-  //       {list.length > 0 && (
-  //         <Button title='usuń kupione' onPress={removeBought} color='#000' />
-  //       )}
-  //       <AddProductForm onAdd={addItem} />
-  //     </SafeAreaView>
-  //   );
-  // }
-  // const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     justifyContent: 'flex-start',
-  //     backgroundColor: '#ecf0f1',
-  //     padding: 8,
-  //   },
-  //   title: {
-  //     flexDirection: 'row',
-  //     justifyContent: 'flex-start',
-  //   },
-  //   brand: {
-  //     margin: 24,
-  //     fontSize: 18,
-  //     width: '80%',
-  //     fontWeight: 'bold',
-  //     textAlign: 'center',
-  //     paddingStart: 50,
-  //   },
-  // });
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        {!isLoggedIn ? (
+          <Stack.Screen name='Login' options={{ headerShown: false }}>
+            {(props) => (
+              <LoginScreen {...props} onLogin={() => setIsLoggedIn(true)} />
+            )}
+          </Stack.Screen>
+        ) : (
+          <>
+            <Stack.Screen name='Main' options={{ title: 'Lista zakupów' }}>
+              {(props) => <MainScreen {...props} />}
+            </Stack.Screen>
+            <Stack.Screen
+              name='AddProduct'
+              options={{ title: 'Dodaj produkt' }}
+            >
+              {(props) => <AddProductScreen {...props} />}
+            </Stack.Screen>
+            <Stack.Screen
+              name='ProductDetails'
+              component={ProductDetailsScreen}
+              options={{ title: 'Szczegóły produktu' }}
+            />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
