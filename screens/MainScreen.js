@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
   SafeAreaView,
-  View,
   Text,
   Button,
   FlatList,
@@ -9,46 +8,48 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const STORAGE_KEY = '@products';
 
 export default function MainScreen({ navigation }) {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const loadProducts = async () => {
       try {
-        const data = [
-          {
-            id: '1',
-            name: 'Chleb',
-            price: 3,
-            store: 'Biedronka',
-            description: 'chleb',
-            image:
-              'https://images.unsplash.com/photo-https://images.unsplash.com/photo-1608198093002-ad4e005484e9?w=800&h=600&auto=format-ad4e005484e9',
-          },
-          {
-            id: '2',
-            name: 'Mleko',
-            price: 2,
-            store: 'Lidl',
-            description: 'Mleko',
-            image: '',
-          },
-        ];
-        setProducts(data);
-        setLoading(false);
+        const stored = await AsyncStorage.getItem(STORAGE_KEY);
+        if (stored !== null) {
+          setProducts(JSON.parse(stored));
+        } else {
+          const defaultProducts = [
+            { id: '1', name: 'Chleb', price: 3, store: 'Biedronka' },
+            { id: '2', name: 'Mleko', price: 2, store: 'Lidl' },
+          ];
+          setProducts(defaultProducts);
+          await AsyncStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(defaultProducts)
+          );
+        }
       } catch (e) {
-        setError('Błąd podczas pobierania produktów');
-        setLoading(false);
+        setError('Błąd podczas ładowania danych');
+        setProducts([]);
       }
     };
-    fetchProducts();
+
+    loadProducts();
   }, []);
 
-  const onAdd = (product) => {
-    setProducts((prev) => [product, ...prev]);
+  const onAdd = async (product) => {
+    try {
+      const updated = [product, ...(products || [])];
+      setProducts(updated);
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    } catch {
+      setError('Błąd zapisu produktu');
+    }
   };
 
   const goToAddProduct = () => navigation.navigate('AddProduct', { onAdd });
@@ -56,7 +57,7 @@ export default function MainScreen({ navigation }) {
   const goToDetails = (product) =>
     navigation.navigate('ProductDetails', { product });
 
-  if (loading)
+  if (products === null)
     return (
       <SafeAreaView style={styles.center}>
         <ActivityIndicator size='large' />
@@ -73,6 +74,7 @@ export default function MainScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Button title='Dodaj produkt' onPress={goToAddProduct} />
+
       {products.length === 0 ? (
         <Text style={styles.emptyText}>Brak produktów na liście</Text>
       ) : (
@@ -96,37 +98,20 @@ export default function MainScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  container: { flex: 1, padding: 16 },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   item: {
     backgroundColor: '#ecf0f1',
     padding: 12,
     marginVertical: 8,
     borderRadius: 6,
   },
-  itemText: {
-    fontSize: 16,
-  },
+  itemText: { fontSize: 16 },
   emptyText: {
     marginTop: 20,
     textAlign: 'center',
     fontSize: 16,
     color: '#555',
   },
-  errorText: {
-    color: 'red',
-    fontSize: 16,
-  },
-  image: {
-    width: '100%',
-    height: 200,
-    borderRadius: 10,
-  },
+  errorText: { color: 'red', fontSize: 16 },
 });

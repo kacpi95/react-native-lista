@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text, Alert } from 'react-native';
 
 export default function LoginScreen({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -9,7 +9,7 @@ export default function LoginScreen({ onLogin }) {
     if (username.trim() && password.trim()) {
       onLogin();
     } else {
-      alert('Podaj nazwę użytkownika i hasło');
+      Alert.alert('Podaj nazwę użytkownika i hasło');
     }
   };
 
@@ -21,14 +21,12 @@ export default function LoginScreen({ onLogin }) {
         value={username}
         onChangeText={setUsername}
         style={styles.input}
-        autoCapitalize='none'
       />
       <TextInput
         placeholder='Hasło'
         value={password}
         onChangeText={setPassword}
         style={styles.input}
-        secureTextEntry
       />
       <Button title='Zaloguj' onPress={handleLogin} />
     </View>
