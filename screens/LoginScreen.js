@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text, Alert } from 'react-native';
 
-export default function LoginScreen({ onLogin }) {
+export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     if (username.trim() && password.trim()) {
-      onLogin();
+      navigation.replace('Main');
     } else {
       Alert.alert('Podaj nazwę użytkownika i hasło');
     }

@@ -38,7 +38,7 @@ export default function AddProductScreen({ navigation, route }) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 16 }}>
+    <SafeAreaView style={styles.container}>
       <TextInput
         placeholder='Nazwa produktu'
         style={styles.input}
@@ -76,6 +76,10 @@ export default function AddProductScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',

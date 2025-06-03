@@ -1,18 +1,11 @@
-import { SafeAreaView, View, Text, Image, StyleSheet } from 'react-native';
+import { SafeAreaView, Text, Image, StyleSheet } from 'react-native';
 
 export default function ProductDetailsScreen({ route }) {
   const { product } = route.params || {};
 
   if (!product) {
-    return (
-      <SafeAreaView style={styles.center}>
-        <Text style={styles.errorText}>
-          Brak danych produktu do wyświetlenia
-        </Text>
-      </SafeAreaView>
-    );
+    return <Text>Brak danych produktu</Text>;
   }
-
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.name}>{product.name}</Text>
