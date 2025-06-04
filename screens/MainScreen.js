@@ -6,7 +6,6 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -52,66 +51,57 @@ export default function MainScreen({ navigation }) {
     }
   };
 
-  const goToAddProduct = () => navigation.navigate('AddProduct', { onAdd });
-
-  const goToDetails = (product) =>
-    navigation.navigate('ProductDetails', { product });
-
-  if (products === null)
-    return (
-      <SafeAreaView style={styles.center}>
-        <ActivityIndicator size='large' />
-      </SafeAreaView>
-    );
-
-  if (error)
-    return (
-      <SafeAreaView style={styles.center}>
-        <Text style={styles.errorText}>{error}</Text>
-      </SafeAreaView>
-    );
-
   return (
     <SafeAreaView style={styles.container}>
-      <Button title='Dodaj produkt' onPress={goToAddProduct} />
-
-      {products.length === 0 ? (
-        <Text style={styles.emptyText}>Brak produktów na liście</Text>
+      {error ? (
+        <Text style={styles.errorText}>{error}</Text>
       ) : (
-        <FlatList
-          data={products}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => goToDetails(item)}
-              style={styles.item}
-            >
-              <Text style={styles.itemText}>
-                {item.name} - {item.price.toFixed(2)}zł ({item.store})
-              </Text>
-            </TouchableOpacity>
-          )}
-        />
+        <>
+          <Button
+            title='Dodaj produkt'
+            onPress={() => navigation.navigate('AddProduct', { onAdd })}
+          />
+
+          <FlatList
+            data={products}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ProductDetails', { product: item })
+                }
+                style={styles.item}
+              >
+                <Text style={styles.itemText}>
+                  {item.name} - {item.price.toFixed(2)}zł ({item.store})
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+        </>
       )}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+
   item: {
     backgroundColor: '#ecf0f1',
     padding: 12,
     marginVertical: 8,
     borderRadius: 6,
   },
-  itemText: { fontSize: 16 },
-  emptyText: {
-    marginTop: 20,
-    textAlign: 'center',
+  itemText: {
     fontSize: 16,
-    color: '#555',
   },
-  errorText: { color: 'red', fontSize: 16 },
+
+  errorText: {
+    color: 'red',
+    fontSize: 16,
+  },
 });

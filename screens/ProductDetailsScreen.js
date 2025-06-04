@@ -63,8 +63,4 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: '#888',
   },
-  errorText: {
-    fontSize: 16,
-    color: 'red',
-  },
 });
