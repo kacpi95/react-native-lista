@@ -3,9 +3,6 @@ import { SafeAreaView, Text, Image, StyleSheet } from 'react-native';
 export default function ProductDetailsScreen({ route }) {
   const { product } = route.params || {};
 
-  if (!product) {
-    return <Text>Brak danych produktu</Text>;
-  }
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.name}>{product.name}</Text>

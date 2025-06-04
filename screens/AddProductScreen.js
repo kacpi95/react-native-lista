@@ -30,10 +30,7 @@ export default function AddProductScreen({ navigation, route }) {
       description,
       image,
     };
-
-    if (typeof onAdd === 'function') {
-      onAdd(newProduct);
-    }
+    onAdd(newProduct);
     navigation.goBack();
   };
 
